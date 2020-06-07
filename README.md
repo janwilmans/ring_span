@@ -19,5 +19,20 @@ The restriction allows the span to be slightly more efficient.
 design considerations:
 
 * the span overwrites the oldest value if a value is pushed in when its full
-* 
+* keep the span simple with minimal error handling, if needed it can layered on top, see safe_push
+
+```
+// example added exceptions for error handling
+template <typename T>
+void safe_push(nostd::ring_span<T> rs, T v)
+{
+    if (rs.size() == rs.capacity())
+    {
+        throw std::runtime_error("safe_push exceeds span capacity");
+    }
+    rs.push_back(v);
+}
+```
+
+
 

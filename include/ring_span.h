@@ -3,7 +3,6 @@
 #include <type_traits>
 #include <utility>
 #include <cassert>
-#include <array>
 #include <cstddef>
 
 namespace nostd {
@@ -19,20 +18,20 @@ class ring_span
 public:
     template <size_t N>
     constexpr ring_span(T (&array)[N]) :
-        m_storage_begin(array), m_storage_mask(N - 1)
+        m_storage_begin(array), m_storage_mask(N - 1), m_capacity(N)
     {
         static_assert(has_single_bit(N) == 0, "size must be a power of two");
     }
 
     template <typename C, typename = decltype(std::declval<C&>().data() + std::declval<C&>().size())>
-    constexpr ring_span(const C& c) :
-        m_storage_begin(c.data()), m_storage_mask(c.size() - 1), m_size(c.m_size)
+    constexpr ring_span(C& c) :
+        m_storage_begin(c.data()), m_storage_mask(c.size() - 1), m_capacity(c.size())
     {
         assert(has_single_bit(c.size()) && "size must be a power of two");
     }
 
     constexpr ring_span(T* p, size_t n) :
-        m_storage_begin(p), m_storage_mask(n - 1)
+        m_storage_begin(p), m_storage_mask(n - 1), m_capacity(n)
     {
         assert(has_single_bit(n) && "size must be a power of two");
     }
@@ -70,6 +69,11 @@ public:
     constexpr size_t size() const
     {
         return m_size;
+    }
+
+    constexpr size_t capacity() const
+    {
+        return m_capacity;
     }
 
     T& push_back()
@@ -128,6 +132,7 @@ public:
 private:
     T* m_storage_begin;
     size_t m_storage_mask;
+    size_t m_capacity;
     size_t m_first{};
     size_t m_size{};
 };
