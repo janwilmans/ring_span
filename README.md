@@ -3,6 +3,24 @@
 Another search for the one ring.
 Thanks to Björn Fahller for writing the original code, I modified it to fit my use cases and extended it to make it have 'the usual methods' like capacity() and clear().
 
+Usage:
+
+```
+    std::vector<int> v;
+    v.resize(256);
+    nostd::ring_span rs(v);
+    rs.push_back(1);  // 'normal' push_back
+```
+
+```
+    class Foo{ std::vector<int> values; } ;
+    std::vector<Foo> v;
+    v.resize(16);
+    nostd::ring_span rs(v);
+    Foo & foo = rs.push_back(); // modify / re-use existing elements without re-construction
+```
+
+
 features:
 
 * mostly constrexpr (with some obvious exceptions)
