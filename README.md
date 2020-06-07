@@ -24,7 +24,7 @@ Usage:
 features:
 
 * mostly constrexpr (with some obvious exceptions)
-* works on top of an existing container of choise, it must have .data() and .size()
+* works on top of an existing container of choice, it must have .data() and .size()
 * allows insertion and removal without construction or destruction of contained objects
 * pushing a value beyond the capacity of the span overwrites the oldest value
 

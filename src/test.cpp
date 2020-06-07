@@ -140,7 +140,7 @@ TEST_CASE("deduce_size_on_construction", "[nostd::ring_span]")
 TEST_CASE("push_back_n_on_default_construct", "[nostd::ring_span]")
 {
     std::array<Foo, 4> v;
-    nostd::ring_span rs(v.data(), v.size());
+    nostd::ring_span rs(v);
 
     CHECK(rs.size() == 0);
     CHECK(rs.capacity() == 4);
@@ -235,7 +235,7 @@ TEST_CASE("three_values", "[nostd::ring_span]")
     std::vector<Foo> v;
     v.resize(256);
     init_counters();
-    nostd::ring_span<Foo> rs(v.data(), v.size());
+    nostd::ring_span rs(v);
 
     auto& a = rs.push_back();
     a.value = 1;
