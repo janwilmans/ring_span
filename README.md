@@ -30,7 +30,7 @@ features:
 
 restrictions:
 
-* requires to be used on contains that has a size that is a power of 2
+* requires to be used on memory area where the size is a power of 2
 
 The restriction allows the span to be slightly more efficient.
 
