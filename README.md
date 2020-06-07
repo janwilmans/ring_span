@@ -6,7 +6,7 @@ Thanks to Björn Fahller for writing the ring_span! I only had to slightly modif
 features:
 
 * mostly constrexpr (with some obvious exceptions)
-* works on top of an existing container of choise
+* works on top of an existing container of choice
 * allows insertion and removal without construction or destruction of contained objects
 * pushing a value beyond the capacity of the span overwrites the oldest value
 
