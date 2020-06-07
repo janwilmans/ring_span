@@ -18,20 +18,20 @@ class ring_span
 public:
     template <size_t N>
     constexpr ring_span(T (&array)[N]) :
-        m_storage_begin(array), m_storage_mask(N - 1), m_capacity(N)
+        m_storage_begin(array), m_storage_mask(N - 1)
     {
         static_assert(has_single_bit(N) == 0, "size must be a power of two");
     }
 
     template <typename C, typename = decltype(std::declval<C&>().data() + std::declval<C&>().size())>
     constexpr ring_span(C& c) :
-        m_storage_begin(c.data()), m_storage_mask(c.size() - 1), m_capacity(c.size())
+        m_storage_begin(c.data()), m_storage_mask(c.size() - 1)
     {
         assert(has_single_bit(c.size()) && "size must be a power of two");
     }
 
     constexpr ring_span(T* p, size_t n) :
-        m_storage_begin(p), m_storage_mask(n - 1), m_capacity(n)
+        m_storage_begin(p), m_storage_mask(n - 1)
     {
         assert(has_single_bit(n) && "size must be a power of two");
     }
@@ -73,7 +73,7 @@ public:
 
     constexpr size_t capacity() const
     {
-        return m_capacity;
+        return m_storage_mask + 1;
     }
 
     T& push_back()
@@ -104,7 +104,6 @@ public:
         return rv;
     }
 
-
     constexpr T& push_back(T&& t)
     {
         auto& rv = (*this)[m_size] = std::move(t);
@@ -127,6 +126,11 @@ public:
         }
         ++m_first;
         --m_size;
+    }
+
+    constexpr void clear()
+    {
+        m_size = 0;
     }
 
 private:

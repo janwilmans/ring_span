@@ -1,12 +1,12 @@
 # ring_span
 
 Another search for the one ring.
-Thanks to Björn Fahller for writing the ring_span! I only had to slightly modify the original code.
+Thanks to Björn Fahller for writing the original code, I modified it to fit my use cases and extended it to make it have 'the usual methods' like capacity() and clear().
 
 features:
 
 * mostly constrexpr (with some obvious exceptions)
-* works on top of an existing container of choise
+* works on top of an existing container of choise, it must have .data() and .size()
 * allows insertion and removal without construction or destruction of contained objects
 * pushing a value beyond the capacity of the span overwrites the oldest value
 
@@ -18,8 +18,9 @@ The restriction allows the span to be slightly more efficient.
 
 design considerations:
 
+* keep the span simple
 * the span overwrites the oldest value if a value is pushed in when its full
-* keep the span simple with minimal error handling, if needed it can layered on top, see safe_push
+* minimal error handling, if needed it can layered on top, see safe_push
 
 ```
 // example added exceptions for error handling
